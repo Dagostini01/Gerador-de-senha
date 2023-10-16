@@ -11,7 +11,7 @@
     <p>Utilize o nosso gerador online para criar uma senha forte e segura</p>
     <input type="text" name="password" id="password">
     <input type="range" name="password-length" id="password-length" value="16" min="5" max="20">
-    <button>Copiar senha</button>
+    <button id="copy">Copiar senha</button>
 
     <script>
 
@@ -32,6 +32,12 @@
             passwordLength = document.querySelector("#password-length").value
             generatePassword()
         })
+
+        function copy() {
+            navigator.clipboard.writeText(document.querySelector("#password").value)
+            alert("Senha copiada!")
+        }
+        document.querySelector("#copy").addEventListener("click", copy)
 
         generatePassword()
         
