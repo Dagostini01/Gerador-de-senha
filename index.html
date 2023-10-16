@@ -10,12 +10,12 @@
     <h1>Gerador de senha</h1>
     <p>Utilize o nosso gerador online para criar uma senha forte e segura</p>
     <input type="text" name="password" id="password">
-    <input type="range" name="password-length" id="password-length" value="16" min="4" max="64">
+    <input type="range" name="password-length" id="password-length" value="16" min="5" max="20">
     <button>Copiar senha</button>
 
     <script>
 
-        let passwordLength = 16
+        let passwordLength = 5
 
         function generatePassword(){
             const chars = "abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPRQRSTUVWXYZ123456789?!@&*()[]"
