@@ -33,16 +33,52 @@
                     </button>
                 </div>
             </div>
+            <div class="security-indicator">
+                <div id="security-indicator-bar" class="bar" style="width: 90%">
+                </div> 
+            </div>
+        </section>
+
+        <section class="box customize">
+
+            <h3 class="title">Personalizar</h3>
             
+            <div class="actions">
+            
+                <div class="password-length">
+                    <p>Tamanho: <span id="password-length-text">16</span></p>
+                    <input type="range" name="password-length" id="password-length" value="16" min="5" max="50">
+                </div>
+            
+                <div class="config">
+                    <label for="" class="checkbox-container">
+                        <span class="text">Maiúsculas</span>
+                        <input type="checkbox" id="uppercase-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label for="" class="checkbox-container">
+                        <span class="text">Números</span>
+                        <input type="checkbox" id="number-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label for="" class="checkbox-container">
+                        <span class="text">Símbolos</span>
+                        <input type="checkbox" id="symbol-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+            </div>
+
         </section>
         
-        <input type="range" name="password-length" id="password-length" value="16" min="5" max="20">
         <button id="copy2">Copiar senha</button>
+
     </main>
 
     <script>
 
-        let passwordLength = 5
+        let passwordLength = 10
 
         function generatePassword() {
             const chars = "abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPRQRSTUVWXYZ123456789?!@&*()[]"
@@ -50,6 +86,9 @@
 
             for (let i = 0; i < passwordLength; i++) {
                 const randomNumber = Math.floor(Math.random() * chars.length)
+                //Math.floor(Math.random() * max);
+                //Math.floor(Math.random() * char.length);
+                //Expected output: 0, 1, 2 ... 67
                 password = password + chars.substring(randomNumber, randomNumber + 1)
             }
             document.querySelector("#password").value = password
@@ -58,7 +97,7 @@
         document.querySelector("#password-length").addEventListener("input", () => {
             passwordLength = document.querySelector("#password-length").value
             generatePassword()
-        })
+        })//dispara o valor do selector conforme a variavel que define o valor inicial
 
         function copy() {
             navigator.clipboard.writeText(document.querySelector("#password").value)
