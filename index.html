@@ -25,15 +25,19 @@
                     <input type="text" name="password" id="password">
                 </div>
                 <div class="actions">
-                    <button id="copy2">C</button>
-                    <button id="renew">R</button>
+                    <button id="copy1">
+                        <img src="copy.svg" width="42">
+                    </button>
+                    <button id="renew">
+                        <img src="renew.svg" width="42">
+                    </button>
                 </div>
             </div>
             
         </section>
         
         <input type="range" name="password-length" id="password-length" value="16" min="5" max="20">
-        <button id="copy">Copiar senha</button>
+        <button id="copy2">Copiar senha</button>
     </main>
 
     <script>
@@ -60,7 +64,8 @@
             navigator.clipboard.writeText(document.querySelector("#password").value)
             alert("Senha copiada!")
         }
-        document.querySelector("#copy").addEventListener("click", copy)
+        document.querySelector("#copy1").addEventListener("click", copy)
+        document.querySelector("#copy2").addEventListener("click", copy)
 
         generatePassword()
 
