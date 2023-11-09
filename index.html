@@ -47,24 +47,21 @@
             
                 <div class="password-length">
                     <p>Tamanho: <span id="password-length-text">16</span></p>
-                    <input type="range" name="password-length" id="password-length" value="16" min="5" max="50">
+                    <input class="slider" type="range" name="password-length" id="password-length" value="16" min="5" max="50">
                 </div>
             
                 <div class="config">
                     <label for="" class="checkbox-container">
-                        <span class="text">Maiúsculas</span>
                         <input type="checkbox" id="uppercase-check" checked>
-                        <span class="checkmark"></span>
+                        <span class="text">Maiúsculas</span>
                     </label>
                     <label for="" class="checkbox-container">
-                        <span class="text">Números</span>
                         <input type="checkbox" id="number-check" checked>
-                        <span class="checkmark"></span>
+                        <span class="text">Números</span>
                     </label>
                     <label for="" class="checkbox-container">
-                        <span class="text">Símbolos</span>
                         <input type="checkbox" id="symbol-check" checked>
-                        <span class="checkmark"></span>
+                        <span class="text">Símbolos</span>
                     </label>
                 </div>
 
@@ -72,8 +69,6 @@
 
         </section>
         
-        <button id="copy2">Copiar senha</button>
-
     </main>
 
     <script>
@@ -81,8 +76,21 @@
         let passwordLength = 10
 
         function generatePassword() {
-            const chars = "abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPRQRSTUVWXYZ123456789?!@&*()[]"
+            let chars = "abcdefghjklmnpqrstuvwxyz"
+            const upperCaseChars = "ABCDEFGHJKLMNPRQRSTUVWXYZ"
+            const numberChars = "123456789"
+            const symbolChars = "?!@&*()[]"
             let password = ""
+
+            if(document.querySelector("#uppercase-check").checked){
+                chars = chars + upperCaseChars
+            }
+            if(document.querySelector("#number-check").checked){
+                chars = chars + numberChars
+            }
+            if(document.querySelector("#symbol-check").checked){
+                chars = chars + symbolChars
+            }
 
             for (let i = 0; i < passwordLength; i++) {
                 const randomNumber = Math.floor(Math.random() * chars.length)
@@ -99,12 +107,15 @@
             generatePassword()
         })//dispara o valor do selector conforme a variavel que define o valor inicial
 
+        document.querySelector("#uppercase-check").addEventListener("click", generatePassword)
+        document.querySelector("#number-check").addEventListener("click", generatePassword)
+        document.querySelector("#symbol-check").addEventListener("click", generatePassword)
+
         function copy() {
             navigator.clipboard.writeText(document.querySelector("#password").value)
             alert("Senha copiada!")
         }
         document.querySelector("#copy1").addEventListener("click", copy)
-        document.querySelector("#copy2").addEventListener("click", copy)
 
         generatePassword()
 
