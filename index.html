@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=Inter&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=Inter&display=swap"
+        rel="stylesheet">
     <title>Document</title>
 </head>
 
@@ -34,22 +35,22 @@
                 </div>
             </div>
             <div class="security-indicator">
-                <div id="security-indicator-bar" class="bar" style="width: 90%">
-                </div> 
+                <div id="security-indicator-bar" class="bar critical"></div>
             </div>
         </section>
 
         <section class="box customize">
 
             <h3 class="title">Personalizar</h3>
-            
+
             <div class="actions">
-            
+
                 <div class="password-length">
-                    <p>Tamanho: <span id="password-length-text">16</span></p>
-                    <input class="slider" type="range" name="password-length" id="password-length" value="16" min="5" max="50">
+                    <p>Tamanho: <span id="password-length-text">10</span></p>
+                    <input class="slider" type="range" name="password-length" id="password-length" value="10" min="10"
+                        max="64">
                 </div>
-            
+
                 <div class="config">
                     <label for="" class="checkbox-container">
                         <input type="checkbox" id="uppercase-check" checked>
@@ -68,7 +69,7 @@
             </div>
 
         </section>
-        
+
     </main>
 
     <script>
@@ -76,19 +77,19 @@
         let passwordLength = 10
 
         function generatePassword() {
-            let chars = "abcdefghjklmnpqrstuvwxyz"
-            const upperCaseChars = "ABCDEFGHJKLMNPRQRSTUVWXYZ"
+            let chars = "abcdefghjklmnprqstuvwxyz"
+            const upperCaseChars = "ABCDEFGHJKLMNPRQSTUVWXYZ"
             const numberChars = "123456789"
             const symbolChars = "?!@&*()[]"
             let password = ""
 
-            if(document.querySelector("#uppercase-check").checked){
+            if (document.querySelector("#uppercase-check").checked) {
                 chars = chars + upperCaseChars
             }
-            if(document.querySelector("#number-check").checked){
+            if (document.querySelector("#number-check").checked) {
                 chars = chars + numberChars
             }
-            if(document.querySelector("#symbol-check").checked){
+            if (document.querySelector("#symbol-check").checked) {
                 chars = chars + symbolChars
             }
 
@@ -100,12 +101,69 @@
                 password = password + chars.substring(randomNumber, randomNumber + 1)
             }
             document.querySelector("#password").value = password
+            calculateQuality()
+            calculateFontSize()
         }
 
+        function calculateQuality() {
+
+            //TAM*25% + MAISC*15% + NUM*25% + SIMB*35% = 100%
+
+            const percent = Math.round(
+                (passwordLength / 64) * 25 + 
+            (document.querySelector("#uppercase-check").checked ? 15 : 0) + 
+            (document.querySelector("#number-check").checked ? 25 : 0 ) + 
+            (document.querySelector("#symbol-check").checked ? 35 : 0 )
+            )
+
+            document.querySelector("#security-indicator-bar").style.width = `${percent}%`
+
+            console.log(percent)
+
+            if (percent > 69) {
+                document.querySelector("#security-indicator-bar").classList.remove("critical")
+                document.querySelector("#security-indicator-bar").classList.remove("warning")
+                document.querySelector("#security-indicator-bar").classList.add("safe")
+            } else if (percent > 50) {
+                document.querySelector("#security-indicator-bar").classList.remove("critical")
+                document.querySelector("#security-indicator-bar").classList.add("warning")
+                document.querySelector("#security-indicator-bar").classList.remove("safe")
+            } else {
+                document.querySelector("#security-indicator-bar").classList.add("critical")
+                document.querySelector("#security-indicator-bar").classList.remove("warning")
+                document.querySelector("#security-indicator-bar").classList.remove("safe")
+            }
+
+        }
+
+        function calculateFontSize() {
+            if (passwordLength > 45) {
+                document.querySelector("#password").classList.remove("font-sm")
+                document.querySelector("#password").classList.remove("font-xs")
+                document.querySelector("#password").classList.add("font-xxs")
+            } else if (passwordLength > 32) {
+                document.querySelector("#password").classList.remove("font-sm")
+                document.querySelector("#password").classList.add("font-xs")
+                document.querySelector("#password").classList.remove("font-xxs")
+            }else if (passwordLength > 22) {
+                document.querySelector("#password").classList.add("font-sm")
+                document.querySelector("#password").classList.remove("font-xs")
+                document.querySelector("#password").classList.remove("font-xxs")
+            } else {
+                document.querySelector("#password").classList.remove("font-sm")
+                document.querySelector("#password").classList.remove("font-xs")
+                document.querySelector("#password").classList.remove("font-xxs")
+
+            }
+        }
+
+        //dispara o valor do selector conforme a variavel que define o valor inicial
         document.querySelector("#password-length").addEventListener("input", () => {
             passwordLength = document.querySelector("#password-length").value
+            document.querySelector("#password-length-text").innerText = passwordLength
             generatePassword()
-        })//dispara o valor do selector conforme a variavel que define o valor inicial
+        })
+
 
         document.querySelector("#uppercase-check").addEventListener("click", generatePassword)
         document.querySelector("#number-check").addEventListener("click", generatePassword)
